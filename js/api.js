@@ -1,6 +1,3 @@
-// ============================================
-// 🚛 LogiTrans Express - Configuración API
-// ============================================
 
 const API_BASE = 'http://localhost:8080/backend-logistica';
 

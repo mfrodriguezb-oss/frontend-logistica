@@ -8,7 +8,6 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- 🗂️ Sidebar / Menú -->
         <nav class="sidebar">
             <h2>LogiTrans</h2>
             <ul class="nav-menu">
@@ -20,7 +19,6 @@
             </ul>
         </nav>
 
-        <!-- 📋 Contenido Principal -->
         <main class="main-content">
             <header class="header">
                 <h1>Panel de Control</h1>
@@ -34,29 +32,29 @@
                 <h2>🚛 Bienvenido a LogiTrans Express</h2>
                 <p>Sistema de Control de Rutas y Transporte de Carga</p>
                 
-                <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                    <div style="background: #e8f5e9; padding: 20px; border-radius: 16px; text-align: center;">
-                        <h3 style="color: #6b9080; font-size: 36px; margin-bottom: 10px;">👷</h3>
-                        <p style="font-weight: 600; color: #4a5568;">Conductores</p>
-                        <a href="conductores.html" style="color: #6b9080; text-decoration: none; font-size: 13px;">Gestionar →</a>
+                <div class="tarjetas-grid">
+                    <div class="tarjeta tarjeta-conductores">
+                        <h3>👷</h3>
+                        <p>Conductores</p>
+                        <a href="conductores.html">Gestionar →</a>
                     </div>
                     
-                    <div style="background: #e3f2fd; padding: 20px; border-radius: 16px; text-align: center;">
-                        <h3 style="color: #0277bd; font-size: 36px; margin-bottom: 10px;">🚐</h3>
-                        <p style="font-weight: 600; color: #4a5568;">Vehiculos</p>
-                        <a href="vehiculos.html" style="color: #0277bd; text-decoration: none; font-size: 13px;">Gestionar →</a>
+                    <div class="tarjeta tarjeta-vehiculos">
+                        <h3>🚐</h3>
+                        <p>Vehiculos</p>
+                        <a href="vehiculos.html">Gestionar →</a>
                     </div>
                     
-                    <div style="background: #fff3e0; padding: 20px; border-radius: 16px; text-align: center;">
-                        <h3 style="color: #ef6c00; font-size: 36px; margin-bottom: 10px;">🗺️</h3>
-                        <p style="font-weight: 600; color: #4a5568;">Rutas</p>
-                        <a href="rutas.html" style="color: #ef6c00; text-decoration: none; font-size: 13px;">Gestionar →</a>
+                    <div class="tarjeta tarjeta-rutas">
+                        <h3>🗺️</h3>
+                        <p>Rutas</p>
+                        <a href="rutas.html">Gestionar →</a>
                     </div>
                     
-                    <div style="background: #f3e5f5; padding: 20px; border-radius: 16px; text-align: center;">
-                        <h3 style="color: #7b1fa2; font-size: 36px; margin-bottom: 10px;">📋</h3>
-                        <p style="font-weight: 600; color: #4a5568;">Viajes</p>
-                        <a href="viajes.html" style="color: #7b1fa2; text-decoration: none; font-size: 13px;">Gestionar →</a>
+                    <div class="tarjeta tarjeta-viajes">
+                        <h3>📋</h3>
+                        <p>Viajes</p>
+                        <a href="viajes.html">Gestionar →</a>
                     </div>
                 </div>
             </div>

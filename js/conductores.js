@@ -1,19 +1,12 @@
-// ============================================
-// 👷 LogiTrans Express - Modulo Conductores
-// ============================================
-
 document.addEventListener('DOMContentLoaded', function() {
     cargarConductores();
 });
 
-// ============================================
-// CARGAR CONDUCTORES DESDE LA API
-// ============================================
 function cargarConductores() {
     var token = localStorage.getItem('token');
     var cuerpoTabla = document.getElementById('cuerpoTabla');
     
-    cuerpoTabla.innerHTML = '<tr><td colspan="10" style="text-align: center;">Cargando conductores...</td></tr>';
+    cuerpoTabla.innerHTML = '<tr><td colspan="10" class="texto-cargando">Cargando conductores...</td></tr>';
     
     fetch(API_URLS.conductores + '/conductores', {
         method: 'GET',
@@ -27,24 +20,21 @@ function cargarConductores() {
     })
     .then(function(datos) {
         if (datos.exito) {
-            mostrarConductores(datos.lista); // CAMBIO: datos.lista en vez de datos.datos
+            mostrarConductores(datos.lista);
         } else {
-            cuerpoTabla.innerHTML = '<tr><td colspan="10" style="text-align: center; color: red;">Error: ' + datos.mensaje + '</td></tr>';
+            cuerpoTabla.innerHTML = '<tr><td colspan="10" class="texto-error">Error: ' + datos.mensaje + '</td></tr>';
         }
     })
     .catch(function(error) {
-        cuerpoTabla.innerHTML = '<tr><td colspan="10" style="text-align: center; color: red;">Error de conexion con el servidor</td></tr>';
+        cuerpoTabla.innerHTML = '<tr><td colspan="10" class="texto-error">Error de conexion con el servidor</td></tr>';
     });
 }
 
-// ============================================
-// MOSTRAR CONDUCTORES EN LA TABLA
-// ============================================
 function mostrarConductores(conductores) {
     var cuerpoTabla = document.getElementById('cuerpoTabla');
     
     if (conductores.length === 0) {
-        cuerpoTabla.innerHTML = '<tr><td colspan="10" style="text-align: center;">No hay conductores registrados</td></tr>';
+        cuerpoTabla.innerHTML = '<tr><td colspan="10" class="texto-vacio">No hay conductores registrados</td></tr>';
         return;
     }
     
@@ -77,9 +67,6 @@ function mostrarConductores(conductores) {
     cuerpoTabla.innerHTML = html;
 }
 
-// ============================================
-// PLACEHOLDERS
-// ============================================
 function mostrarFormularioCrear() {
     alert('Funcion crear conductor - se implementara despues');
 }

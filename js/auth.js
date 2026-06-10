@@ -1,27 +1,11 @@
-// ============================================
-// 🔐 LogiTrans Express - Autenticación
-// ============================================
-
 document.addEventListener('DOMContentLoaded', function() {
-    const token = localStorage.getItem('token');
-    const paginaActual = window.location.pathname;
-    
-    // Si está en login y ya tiene token, redirigir a dashboard
-    if (paginaActual.includes('index.html') && token) {
-        window.location.replace('dashboard.html');
-        return;
-    }
-    
-    // Formulario de login
+
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', iniciarSesion);
     }
 });
 
-// ============================================
-// INICIAR SESIÓN
-// ============================================
 async function iniciarSesion(evento) {
     evento.preventDefault();
     
@@ -49,29 +33,12 @@ async function iniciarSesion(evento) {
         const datos = await respuesta.json();
         
         if (datos.exito) {
-            // Guardar token y datos del usuario
             localStorage.setItem('token', datos.datos.token);
             localStorage.setItem('nombre', datos.datos.nombre);
             localStorage.setItem('rol', datos.datos.rol);
             
-            // Mostrar mensaje de éxito con ENLACE (no botón) para evitar alerta de Chrome
-            mensajeDiv.innerHTML = `
-                <div style="text-align: center;">
-                    <p style="margin-bottom: 15px;">✅ ¡Bienvenido ${datos.datos.nombre}!</p>
-                    <a href="dashboard.html" style="
-                        display: inline-block;
-                        padding: 12px 24px;
-                        background: #6b9080;
-                        color: white;
-                        text-decoration: none;
-                        border-radius: 12px;
-                        font-family: 'Poppins', sans-serif;
-                        font-size: 15px;
-                    ">Ir al Dashboard 🚀</a>
-                </div>
-            `;
-            mensajeDiv.className = 'mensaje exito';
-            mensajeDiv.style.display = 'block';
+   
+            window.location.href = 'dashboard.html';
             
         } else {
             mostrarMensaje(mensajeDiv, datos.mensaje || 'Credenciales incorrectas', 'error');
@@ -83,9 +50,6 @@ async function iniciarSesion(evento) {
     }
 }
 
-// ============================================
-// CERRAR SESIÓN
-// ============================================
 async function cerrarSesion() {
     const token = localStorage.getItem('token');
     
@@ -108,9 +72,6 @@ async function cerrarSesion() {
     window.location.replace('index.html');
 }
 
-// ============================================
-// MOSTRAR MENSAJE
-// ============================================
 function mostrarMensaje(elemento, texto, tipo) {
     elemento.textContent = texto;
     elemento.className = 'mensaje ' + tipo;
@@ -120,9 +81,6 @@ function mostrarMensaje(elemento, texto, tipo) {
     }, 5000);
 }
 
-// ============================================
-// VERIFICAR TOKEN (para proteger páginas)
-// ============================================
 async function verificarToken() {
     const token = localStorage.getItem('token');
     
