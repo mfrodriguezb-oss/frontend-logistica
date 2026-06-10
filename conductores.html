@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogiTrans Express - Conductores</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Menu lateral -->
+        <nav class="sidebar">
+            <h2>LogiTrans</h2>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Inicio</a></li>
+                <li><a href="conductores.html" class="active">Conductores</a></li>
+                <li><a href="vehiculos.html">Vehiculos</a></li>
+                <li><a href="rutas.html">Rutas</a></li>
+                <li><a href="viajes.html">Viajes</a></li>
+            </ul>
+        </nav>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <header class="header">
+                <h1>👷 Conductores</h1>
+                <div class="user-info">
+                    <span id="nombreUsuario">Usuario</span>
+                    <button class="btn-logout" onclick="cerrarSesion()">Cerrar Sesion</button>
+                </div>
+            </header>
+
+            <div class="content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Lista de Conductores</h2>
+                    <button class="btn btn-success" onclick="mostrarFormularioCrear()">+ Nuevo Conductor</button>
+                </div>
+
+                <!-- Tabla de conductores -->
+                <div class="table-container">
+                    <table id="tablaConductores">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Documento</th>
+                                <th>Telefono</th>
+                                <th>Licencia</th>
+                                <th>Categoria</th>
+                                <th>Vencimiento</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoTabla">
+                            <!-- Los conductores se cargan aqui con JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/conductores.js"></script>
+</body>
+</html>

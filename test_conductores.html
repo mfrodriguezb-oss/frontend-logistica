@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Conductores</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .resultado { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .exito { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test de Conductores</h1>
+    
+    <h2>Paso 1: Login</h2>
+    <button onclick="hacerLogin()">1. Hacer Login</button>
+    <div id="resultadoLogin" class="resultado"></div>
+    
+    <h2>Paso 2: Ver Token</h2>
+    <button onclick="verToken()">2. Ver Token Guardado</button>
+    <div id="resultadoToken" class="resultado"></div>
+    
+    <h2>Paso 3: Pedir Conductores</h2>
+    <button onclick="pedirConductores()">3. Pedir Conductores al Backend</button>
+    <div id="resultadoConductores" class="resultado"></div>
+    
+    <script>
+        var tokenGuardado = '';
+        
+        function hacerLogin() {
+            var div = document.getElementById('resultadoLogin');
+            div.textContent = 'Enviando login...';
+            
+            fetch('http://localhost:8080/backend-logistica/ms-auth/public/index.php/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ usuario: 'admin', contrasena: 'admin123' })
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+                if (d.exito) {
+                    tokenGuardado = d.datos.token;
+                    localStorage.setItem('token', tokenGuardado);
+                    div.className = 'resultado exito';
+                    div.innerHTML = 'Login OK!<br>Token: ' + tokenGuardado.substring(0, 20) + '...';
+                } else {
+                    div.className = 'resultado error';
+                    div.textContent = 'Error: ' + d.mensaje;
+                }
+            })
+            .catch(function(e) {
+                div.className = 'resultado error';
+                div.textContent = 'Error de conexion: ' + e;
+            });
+        }
+        
+        function verToken() {
+            var div = document.getElementById('resultadoToken');
+            var t = localStorage.getItem('token');
+            if (t) {
+                div.className = 'resultado exito';
+                div.textContent = 'Token en localStorage: ' + t.substring(0, 30) + '...';
+            } else {
+                div.className = 'resultado error';
+                div.textContent = 'NO HAY TOKEN en localStorage';
+            }
+        }
+        
+        function pedirConductores() {
+            var div = document.getElementById('resultadoConductores');
+            var t = localStorage.getItem('token');
+            
+            if (!t) {
+                div.className = 'resultado error';
+                div.textContent = 'Primero haz login (Paso 1)';
+                return;
+            }
+            
+            div.textContent = 'Enviando peticion con token...';
+            
+            fetch('http://localhost:8080/backend-logistica/ms-conductores/public/index.php/conductores', {
+                method: 'GET',
+                headers: {
+                    'TOKEN': t,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(function(r) {
+                div.innerHTML += '<br>Status HTTP: ' + r.status;
+                return r.text(); // Usamos text() para ver la respuesta cruda
+            })
+            .then(function(texto) {
+                div.innerHTML += '<br>Respuesta: ' + texto.substring(0, 500);
+                try {
+                    var json = JSON.parse(texto);
+                    if (json.exito) {
+                        div.className = 'resultado exito';
+                        div.innerHTML += '<br><br>✅ CONDUCTORES RECIBIDOS: ' + json.datos.length;
+                    } else {
+                        div.className = 'resultado error';
+                        div.innerHTML += '<br><br>❌ ERROR: ' + json.mensaje;
+                    }
+                } catch(e) {
+                    div.className = 'resultado error';
+                    div.innerHTML += '<br><br>❌ No es JSON valido';
+                }
+            })
+            .catch(function(e) {
+                div.className = 'resultado error';
+                div.innerHTML += '<br>Error: ' + e;
+            });
+        }
+    </script>
+</body>
+</html>

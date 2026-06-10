@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Login</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .resultado { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .exito { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test de Login</h1>
+    
+    <h2>Paso 1: Probar Login</h2>
+    <button onclick="probarLogin()">Probar Login con admin/admin123</button>
+    <div id="resultadoLogin" class="resultado"></div>
+    
+    <h2>Paso 2: Verificar Token Guardado</h2>
+    <button onclick="verToken()">Ver Token en localStorage</button>
+    <div id="resultadoToken" class="resultado"></div>
+    
+    <h2>Paso 3: Ir al Dashboard</h2>
+    <a href="dashboard.html">Ir al Dashboard</a>
+    
+    <script src="js/api.js"></script>
+    <script>
+        function probarLogin() {
+            var div = document.getElementById('resultadoLogin');
+            div.textContent = 'Enviando petición...';
+            
+            fetch(API_URLS.auth + '/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    usuario: 'admin',
+                    contrasena: 'admin123'
+                })
+            })
+            .then(function(respuesta) {
+                return respuesta.json();
+            })
+            .then(function(datos) {
+                if (datos.exito) {
+                    // Guardar manualmente
+                    localStorage.setItem('token', datos.datos.token);
+                    localStorage.setItem('nombre', datos.datos.nombre);
+                    localStorage.setItem('rol', datos.datos.rol);
+                    
+                    div.className = 'resultado exito';
+                    div.innerHTML = '✅ Login exitoso!<br>Token: ' + datos.datos.token + '<br>Nombre: ' + datos.datos.nombre;
+                } else {
+                    div.className = 'resultado error';
+                    div.textContent = '❌ Error: ' + datos.mensaje;
+                }
+            })
+            .catch(function(error) {
+                div.className = 'resultado error';
+                div.textContent = '❌ Error de conexión: ' + error;
+            });
+        }
+        
+        function verToken() {
+            var div = document.getElementById('resultadoToken');
+            var token = localStorage.getItem('token');
+            var nombre = localStorage.getItem('nombre');
+            
+            if (token) {
+                div.className = 'resultado exito';
+                div.innerHTML = '✅ Token encontrado!<br>Token: ' + token + '<br>Nombre: ' + nombre;
+            } else {
+                div.className = 'resultado error';
+                div.textContent = '❌ NO HAY TOKEN guardado';
+            }
+        }
+    </script>
+</body>
+</html>
