@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogiTrans Express - Viajes</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="sidebar">
+            <h2>LogiTrans</h2>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Inicio</a></li>
+                <li><a href="conductores.html">Conductores</a></li>
+                <li><a href="vehiculos.html">Vehiculos</a></li>
+                <li><a href="rutas.html">Rutas</a></li>
+                <li><a href="viajes.html" class="active">Viajes</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header class="header">
+                <h1>📋 Viajes</h1>
+                <div class="user-info">
+                    <span id="nombreUsuario">Usuario</span>
+                    <button class="btn-logout" onclick="cerrarSesion()">Cerrar Sesion</button>
+                </div>
+            </header>
+
+            <div class="content">
+                <!-- Tabs -->
+                <div class="tabs-container">
+                    <button class="tab-button" onclick="cambiarTab('seguimiento')">📍 Seguimiento de Viajes</button>
+                    <!-- <button class="tab-button" onclick="cambiarTab('programacion')">📅 Programación de Viajes (Próximamente)</button> -->
+                </div>
+
+                <!-- TAB 2: SEGUIMIENTO DE VIAJES -->
+                <div id="tab-seguimiento" class="tab-content active">
+                    <div class="flex-between">
+                        <h2>Programación de Viajes</h2>
+                        <button class="btn btn-success" onclick="mostrarFormularioProgramacion()">+ Nueva Programación</button>
+                    </div>
+
+                    <!-- Panel de Busqueda Programaciones -->
+                    <div class="search-panel">
+                        <div class="search-grid">
+                            <div class="search-group">
+                                <label for="filtroProgramacionConductor">Conductor:</label>
+                                <input type="text" id="filtroProgramacionConductor" placeholder="Buscar conductor...">
+                            </div>
+                            <div class="search-group">
+                                <label for="filtroProgramacionVehiculo">Vehiculo:</label>
+                                <input type="text" id="filtroProgramacionVehiculo" placeholder="Buscar vehiculo...">
+                            </div>
+                            <div class="search-group">
+                                <label for="filtroProgramacionEstado">Estado:</label>
+                                <select id="filtroProgramacionEstado">
+                                    <option value="">Todos</option>
+                                    <option value="programado">Programado</option>
+                                    <option value="en_viaje">En Viaje</option>
+                                    <option value="completado">Completado</option>
+                                    <option value="cancelado">Cancelado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="search-buttons">
+                            <button class="btn btn-info" onclick="buscarProgramaciones()">Buscar</button>
+                            <button class="btn btn-secondary" onclick="limpiarFiltrosProgramaciones()">Limpiar</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="tablaProgramaciones">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Conductor</th>
+                                    <th>Vehiculo</th>
+                                    <th>Ruta</th>
+                                    <th>Salida</th>
+                                    <th>Llegada Est.</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpoProgramaciones">
+                                <tr>
+                                    <td colspan="8" class="texto-cargando">Cargando programaciones...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 2: SEGUIMIENTO DE VIAJES -->
+                <div id="tab-seguimiento" class="tab-content">
+                    <div class="flex-between">
+                        <h2>Seguimiento de Viajes</h2>
+                        <button class="btn btn-success" onclick="mostrarFormularioSeguimiento()">+ Nuevo Seguimiento</button>
+                    </div>
+
+                    <!-- Panel de Busqueda Seguimientos -->
+                    <div class="search-panel">
+                        <div class="search-grid">
+                            <div class="search-group">
+                                <label for="filtroSeguimientoFecha">Fecha:</label>
+                                <input type="date" id="filtroSeguimientoFecha">
+                            </div>
+                            <div class="search-group">
+                                <label for="filtroSeguimientoEstado">Estado:</label>
+                                <select id="filtroSeguimientoEstado">
+                                    <option value="">Todos</option>
+                                    <option value="programado">Programado</option>
+                                    <option value="en_transito">En Transito</option>
+                                    <option value="retrasado">Retrasado</option>
+                                    <option value="finalizado">Finalizado</option>
+                                    <option value="cancelado">Cancelado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="search-buttons">
+                            <button class="btn btn-info" onclick="buscarSeguimientos()">Buscar</button>
+                            <button class="btn btn-secondary" onclick="limpiarFiltrosSeguimientos()">Limpiar</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="tablaSeguimientos">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Programacion ID</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Estado</th>
+                                    <th>Novedad</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpoSeguimientos">
+                                <tr>
+                                    <td colspan="7" class="texto-cargando">Cargando seguimientos...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para Crear/Editar Programacion -->
+    <div id="modalProgramacion" class="modal-overlay">
+        <div class="modal">
+            <h2 id="modalTituloProgramacion">Nueva Programación de Viaje</h2>
+            <form id="formProgramacion">
+                <input type="hidden" id="programacionId">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="conductor_id">Conductor:</label>
+                        <select id="conductor_id" required>
+                            <option value="">Seleccionar conductor...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehiculo_id">Vehiculo:</label>
+                        <select id="vehiculo_id" required>
+                            <option value="">Seleccionar vehiculo...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ruta_id">Ruta:</label>
+                        <select id="ruta_id" required>
+                            <option value="">Seleccionar ruta...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha_salida">Fecha de Salida:</label>
+                        <input type="date" id="fecha_salida" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hora_salida">Hora de Salida:</label>
+                        <input type="time" id="hora_salida" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha_llegada_estimada">Fecha Est. Llegada:</label>
+                        <input type="date" id="fecha_llegada_estimada" required>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="observaciones_prog">Observaciones:</label>
+                        <textarea id="observaciones_prog" placeholder="Ingrese observaciones"></textarea>
+                    </div>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-danger" onclick="cerrarModalProgramacion()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Crear/Editar Seguimiento -->
+    <div id="modalSeguimiento" class="modal-overlay">
+        <div class="modal">
+            <h2 id="modalTituloSeguimiento">Nuevo Seguimiento</h2>
+            <form id="formSeguimiento">
+                <input type="hidden" id="seguimientoId">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="programacion_viaje_id">Programacion Viaje ID:</label>
+                        <input type="number" id="programacion_viaje_id" required placeholder="Ingrese ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha_seguimiento">Fecha:</label>
+                        <input type="date" id="fecha_seguimiento" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hora_seguimiento">Hora:</label>
+                        <input type="time" id="hora_seguimiento" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="estado_seguimiento">Estado:</label>
+                        <select id="estado_seguimiento">
+                            <option value="programado">Programado</option>
+                            <option value="en_transito">En Transito</option>
+                            <option value="retrasado">Retrasado</option>
+                            <option value="finalizado">Finalizado</option>
+                            <option value="cancelado">Cancelado</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="novedad">Novedad:</label>
+                        <textarea id="novedad" placeholder="Ingrese novedad"></textarea>
+                    </div>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-danger" onclick="cerrarModalSeguimiento()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/viajes.js"></script>
+</body>
+</html>

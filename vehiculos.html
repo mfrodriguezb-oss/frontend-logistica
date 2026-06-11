@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LogiTrans Express - Vehiculos</title>
@@ -34,6 +35,32 @@
                     <button class="btn btn-success" onclick="mostrarFormularioCrear()">+ Nuevo Vehiculo</button>
                 </div>
 
+                <!-- Panel de Búsqueda -->
+                <div class="busqueda-panel" style="margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px;">
+                    <h3 style="margin-top: 0;">Filtros de Búsqueda</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                        <div>
+                            <input type="text" id="filtroPlaca" placeholder="Buscar por placa..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div>
+                            <input type="text" id="filtroTipo" placeholder="Buscar por tipo..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div>
+                            <select id="filtroEstado" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="">-- Todos los estados --</option>
+                                <option value="disponible">Disponible</option>
+                                <option value="en_ruta">En Ruta</option>
+                                <option value="mantenimiento">Mantenimiento</option>
+                                <option value="inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" onclick="buscarVehiculos()" style="width: 100%;">Buscar</button>
+                            <button class="btn btn-secondary" onclick="limpiarFiltros()" style="width: 100%; margin-top: 5px;">Limpiar</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="table-container">
                     <table id="tablaVehiculos">
                         <thead>
@@ -57,6 +84,62 @@
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- Modal para Crear/Editar Vehiculo -->
+    <div id="modalVehiculo" class="modal-overlay">
+        <div class="modal">
+            <h2 id="modalTitulo">Nuevo Vehiculo</h2>
+            <form id="formVehiculo">
+                <input type="hidden" id="vehiculoId">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="placa">Placa:</label>
+                        <input type="text" id="placa" required placeholder="Ej: ABC123">
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo_vehiculo">Tipo Vehiculo:</label>
+                        <input type="text" id="tipo_vehiculo" required placeholder="Ej: Camion, Furgon">
+                    </div>
+                    <div class="form-group">
+                        <label for="capacidad_carga">Capacidad (kg):</label>
+                        <input type="number" id="capacidad_carga" required placeholder="Ej: 5000">
+                    </div>
+                    <div class="form-group">
+                        <label for="modelo">Modelo (Año):</label>
+                        <input type="text" id="modelo" required placeholder="Ej: 2022">
+                    </div>
+                    <div class="form-group">
+                        <label for="marca">Marca:</label>
+                        <input type="text" id="marca" required placeholder="Ej: Chevrolet">
+                    </div>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-danger" onclick="cerrarModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Cambiar Estado -->
+    <div id="modalEstado" class="modal-overlay">
+        <div class="modal">
+            <h2>Cambiar Estado</h2>
+            <p>Seleccione el nuevo estado:</p>
+            <div class="form-group">
+                <select id="nuevoEstado">
+                    <option value="disponible">Disponible</option>
+                    <option value="en_ruta">En Ruta</option>
+                    <option value="mantenimiento">Mantenimiento</option>
+                    <option value="inactivo">Inactivo</option>
+                </select>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="btn btn-danger" onclick="cerrarModalEstado()">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="guardarEstado()">Guardar</button>
+            </div>
+        </div>
     </div>
 
     <script src="js/api.js"></script>

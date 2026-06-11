@@ -32,3 +32,24 @@ function cargarNombreUsuario() {
         elemento.textContent = nombre;
     }
 }
+
+function cerrarSesion() {
+    if (confirm('¿Desea cerrar sesión?')) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('nombre');
+        localStorage.removeItem('rol');
+        window.location.href = 'index.html';
+    }
+}
+
+function mostrarMensaje(elemento, mensaje, tipo) {
+    elemento.textContent = mensaje;
+    elemento.className = 'mensaje ' + tipo;
+    elemento.style.display = 'block';
+    
+    if (tipo === 'exito') {
+        setTimeout(function() {
+            elemento.style.display = 'none';
+        }, 3000);
+    }
+}
