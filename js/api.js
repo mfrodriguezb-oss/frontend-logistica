@@ -3,8 +3,8 @@ const API_BASE = 'http://127.0.0.1';
 const API_URLS = {
     auth: `${API_BASE}:9001`,
     conductores: `${API_BASE}:9002`,
-    vehiculos: `${API_BASE}:9003`,
-    rutas: `${API_BASE}:9004`,
+    rutas: `${API_BASE}:9003`,
+    vehiculos: `${API_BASE}:9004`,
     viajes: `${API_BASE}:9005`
 };
 
